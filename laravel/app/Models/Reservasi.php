@@ -2,33 +2,33 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Reservation extends Model
+class Reservasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'reservations';
+        
     protected $fillable = [
         'user_id',
-        'item_id',
+        'produk_id',
         'start_date',
         'end_date',
         'qty',
         'total_price',
-        'reservation_code',
         'status',
+        'reservation_code',
     ];
 
-    // Relasi ke User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relasi ke Item
-    public function item()
+    public function produk()
     {
-        return $this->belongsTo(Produk::class);
+        return $this->belongsTo(Produk::class, 'produk_id', 'idbarang');
     }
 }

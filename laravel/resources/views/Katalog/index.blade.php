@@ -17,9 +17,11 @@
         <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @forelse($items as $item)
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden flex flex-col">
-                    <img src="{{ $item->image ? asset('storage/'.$item->image) : 'https://via.placeholder.com/400x300' }}"
-                         alt="{{ $item->name }}"
-                         class="w-full h-32 object-cover">
+                    <img
+    src="{{ $item->gambar ? asset('storage/'.$item->gambar) : 'https://via.placeholder.com/400x300' }}"
+    alt="{{ $item->nama_barang }}"
+    class="w-full h-32 object-cover"
+/>
 
                     <div class="p-4 flex flex-col flex-1">
                         <h2 class="font-semibold text-base mb-1">{{ $item->name }}</h2>
@@ -34,7 +36,7 @@
                         </p>
 
                         <div class="mt-auto pt-3">
-                            <a href="{{ route('katalog.show', $item->id) }}"
+                            <a href="{{ route('katalog.show', $item->idbarang) }}"
                                class="block text-center text-sm bg-emerald-600 text-white px-3 py-2 rounded-lg hover:bg-emerald-700">
                                 Lihat Detail
                             </a>

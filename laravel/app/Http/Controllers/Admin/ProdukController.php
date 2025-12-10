@@ -33,7 +33,7 @@ class ProdukController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('gambar_produk', 'public');
+             $data['gambar'] = $request->file('gambar')->store('produk', 'public');
         }
 
         Produk::create($validated);

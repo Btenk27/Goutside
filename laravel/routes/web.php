@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
 
     
 
-    // 🔐 PAYMENT MIDTRANS
+    //  PAYMENT MIDTRANS
     Route::get(
         '/reservasi/{reservation}/pay',
         [PaymentController::class, 'pay']

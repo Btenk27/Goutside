@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservasi Barang - Goutside</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-     jQuery untuk AJAX 
+     jQuery untuk AJAX
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -16,34 +16,42 @@
         <h1 class="text-2xl font-bold mb-4 text-center">Form Reservasi</h1>
 
         @if ($errors->any())
+
             <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-sm">
                 <ul class="list-disc list-inside">
                     @foreach ($errors->all() as $error)
+
                         <li>{{ $error }}</li>
                     @endforeach
+
                 </ul>
             </div>
         @endif
 
-        @if(session('success'))
+
+        @if (session('success'))
+
             <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4 text-sm">
                 {{ session('success') }}
             </div>
         @endif
 
-        <form method="POST" action="{{ route('reservasi.store') }}" 
+
+        <form method="POST" action="{{ route('reservasi.store') }}"
               class="bg-white p-6 rounded-xl shadow space-y-4" id="reservation-form">
             @csrf
 
-            {{-- PILIH KATEGORI  --}}
+            {{-- PILIH KATEGORI --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kategori</label>
                 <select name="kategori" id="kategori"
                         class="w-full border rounded-lg px-3 py-2 text-sm">
                     <option value="">-- Pilih kategori dulu --</option>
-                    @foreach($kategories as $kategori)
+                    @foreach ($kategories as $kategori)
+
                         <option value="{{ $kategori }}">{{ $kategori }}</option>
                     @endforeach
+
                 </select>
             </div>
 
@@ -54,11 +62,13 @@
                         class="w-full border rounded-lg px-3 py-2 text-sm"
                         required disabled>
                     <option value="">-- Pilih produk --</option>
-                    @if($selectedProduk)
+                    @if ($selectedProduk)
+
                         <option value="{{ $selectedProduk->idbarang }}" selected>
                             {{ $selectedProduk->nama_barang }} - Rp {{ number_format($selectedProduk->harga, 0, ',', '.') }}/hari
                         </option>
                     @endif
+
                 </select>
                 <div class="text-xs text-gray-500 mt-1" id="product-info"></div>
             </div>
@@ -89,17 +99,17 @@
             {{-- TANGGAL MULAI --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>
-                <input type="date" name="start_date" id="start_date" 
+                <input type="date" name="start_date" id="start_date"
                        value="{{ old('start_date') }}"
-                       class="w-full border rounded-lg px-3 py-2 text-sm" 
-                       required 
+                       class="w-full border rounded-lg px-3 py-2 text-sm"
+                       required
                        min="{{ date('Y-m-d') }}">
             </div>
 
             {{-- TANGGAL SELESAI --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Selesai</label>
-                <input type="date" name="end_date" id="end_date" 
+                <input type="date" name="end_date" id="end_date"
                        value="{{ old('end_date') }}"
                        class="w-full border rounded-lg px-3 py-2 text-sm" required>
             </div>
@@ -107,7 +117,7 @@
             {{-- QTY --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah (qty)</label>
-                <input type="number" name="qty" id="qty" min="1" 
+                <input type="number" name="qty" id="qty" min="1"
                        value="{{ old('qty', 1) }}"
                        class="w-full border rounded-lg px-3 py-2 text-sm" required>
                 <div class="text-xs text-red-500 mt-1" id="qty-error"></div>
@@ -131,8 +141,7 @@
         </form>
     </main>
 
-    <script>
-    $(document).ready(function() {
+    <script>$(document).ready(function() {
         const kategoriSelect = $('#kategori');
         const produkSelect = $('#produk_id');
         const productDetails = $('#product-details');
@@ -146,7 +155,7 @@
         // Load produk berdasarkan kategori
         kategoriSelect.change(function() {
             const kategori = $(this).val();
-            
+
             if (kategori) {
                 $.ajax({
                     url: '{{ route("get.products.by.category") }}',
@@ -155,7 +164,7 @@
                     success: function(data) {
                         produkSelect.empty().prop('disabled', false);
                         produkSelect.append('<option value="">-- Pilih produk --</option>');
-                        
+
                         $.each(data, function(index, product) {
                             produkSelect.append(
                                 `<option value="${product.idbarang}" 
@@ -167,7 +176,7 @@
                                 </option>`
                             );
                         });
-                        
+
                         productDetails.hide();
                         resetCalculation();
                     },
@@ -186,14 +195,14 @@
         // 2. Tampilkan detail produk saat dipilih
         produkSelect.change(function() {
             const selectedOption = $(this).find(':selected');
-            
+
             if (selectedOption.val()) {
                 productDetails.show();
                 $('#product-nama').text(selectedOption.data('nama'));
                 $('#product-harga').text('Rp ' + formatRupiah(selectedOption.data('harga')) + '/hari');
                 $('#product-stok').text(selectedOption.data('stok'));
                 $('#product-kategori').text(selectedOption.data('kategori'));
-                
+
                 // Set max qty sesuai stok
                 qtyInput.attr('max', selectedOption.data('stok'));
                 calculateTotal();
@@ -210,14 +219,14 @@
             const qty = parseInt(qtyInput.val() || 0);
             const start = new Date(startDate.val());
             const end = new Date(endDate.val());
-            
+
             if (harga && qty && start && end && start <= end) {
                 const days = Math.floor((end - start) / (86400000)) + 1;
                 const total = harga * qty * days;
-                
+
                 durationSpan.text(days);
                 totalPrice.text('Rp ' + formatRupiah(total));
-                
+
                 // Validasi stok
                 const stock = parseInt(selectedProduct.data('stok') || 0);
                 if (qty > stock) {
@@ -259,15 +268,14 @@
             $(document).ready(function() {
                 // Auto-select kategori
                 $('#kategori').val('{{ $selectedProduk->kategori }}').trigger('change');
-                
+
                 // Tunggu sebentar lalu select produk
                 setTimeout(function() {
                     $('#produk_id').val('{{ $selectedProduk->idbarang }}').trigger('change');
                 }, 500);
             });
         @endif
-    });
-    </script>
+    });</script>
 
 </body>
 </html> -->

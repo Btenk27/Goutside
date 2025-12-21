@@ -9,10 +9,6 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    /**
-     * Kolom yang bisa diisi (fillable)
-     * ⚠️ PASTIKAN ADA KOLOM-KOLOM INI:
-     */
     protected $fillable = [
         'user_id',           // ID user yang melakukan transaksi
         'order_id',          // Order ID untuk Midtrans (unik)

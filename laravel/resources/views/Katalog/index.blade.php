@@ -197,8 +197,46 @@
       }
     </script>
 
-    <footer class="bg-gray-900 py-6 text-center text-sm text-gray-400">
-      &copy; {{ date('Y') }} Goutside. All rights reserved.
-    </footer>
+<footer class="relative bg-gradient-to-t from-slate-900 to-slate-800 text-gray-300 overflow-hidden">
+    <!-- Soft Glow -->
+    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px]
+        bg-emerald-400/10 blur-[140px] rounded-full"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center">
+        <h4 class="text-sm font-semibold text-white mb-6 tracking-wide uppercase">
+            Developed By
+        </h4>
+
+        <ul class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-emerald-100">
+            <li>
+                <a href="https://www.instagram.com/zhidan.f.p/" target="_blank"
+                   class="hover:text-emerald-400 transition">
+                    Zhidan Frizky
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/zikryaljava_/" target="_blank"
+                   class="hover:text-emerald-400 transition">
+                    Zikry Azizy Aljava
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/miuvanidak/" target="_blank"
+                   class="hover:text-emerald-400 transition">
+                    Miuvnida Klandistin
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/_f.fyp/" target="_blank"
+                   class="hover:text-emerald-400 transition">
+                    Fandy Fernanda Yapari
+                </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</footer>
   </body>
 </html>

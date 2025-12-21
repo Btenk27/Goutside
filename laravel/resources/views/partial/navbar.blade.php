@@ -199,12 +199,23 @@ animate-mobile-menu">
         @endauth
 
         <!-- Guest: Login & Register -->
-        @guest
-        <a href="{{ route('login') }}" class="btn-soft text-xs font-medium text-emerald-100
-border border-emerald-300/60 px-3 py-1 rounded-full relative">
-        <a href="{{ route('register') }}" class="btn-soft text-xs font-medium text-emerald-100
-border border-emerald-300/60 px-3 py-1 rounded-full relative">Daftar</a>
-        @endguest
+@guest
+<div class="mt-4 px-3 flex flex-col gap-3">
+    <a href="{{ route('login') }}"
+       class="btn-soft text-sm font-medium text-emerald-100
+              border border-emerald-300/60 px-4 py-2 rounded-lg text-center">
+        Masuk
+    </a>
+
+    <a href="{{ route('register') }}"
+       class="text-sm font-medium text-emerald-800
+              bg-emerald-100 px-4 py-2 rounded-lg text-center
+              hover:bg-white transition">
+        Daftar
+    </a>
+</div>
+@endguest
+
     </div>
 </div>
 

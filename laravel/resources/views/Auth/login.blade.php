@@ -3,58 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Outdoors Rent</title>
+    <title>Login - Goutside</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        /* entrance */
+        .fade-scale {
+            opacity: 0;
+            transform: scale(.96) translateY(16px);
+            transition: all .6s ease;
+        }
+        .fade-scale.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* moving gradient text */
+        .animated-gradient {
+            background: linear-gradient(
+                90deg,
+                #10b981,
+                #22d3ee,
+                #10b981
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 6s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* soft glow */
+        .soft-glow:hover {
+            box-shadow:
+                0 0 0 1px rgba(16,185,129,.2),
+                0 18px 45px rgba(16,185,129,.25);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-900 antialiased">
 
-    @include('partial.navbar')
+<body class="bg-white text-gray-900 antialiased">
 
-    <main class="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
-        <div class="max-w-md w-full bg-white rounded-2xl shadow-lg p-6">
-            <h1 class="text-2xl font-bold text-center mb-2">Masuk</h1>
-            <p class="text-sm text-gray-500 text-center mb-6">Login untuk melakukan reservasi lebih mudah.</p>
+@include('partial.navbar')
 
-            @if ($errors->any())
-                <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-sm">
-                    {{ $errors->first() }}
-                </div>
-            @endif
+<main class="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
 
-            <form action="{{ route('login.post') }}" method="POST" class="space-y-4">
-                @csrf
-                <div>
-                    <label class="block text-sm font-medium mb-1">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}"
-                           class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                           required>
-                </div>
+    <div class="fade-scale max-w-md w-full
+        bg-white border border-gray-200
+        rounded-3xl shadow-xl
+        p-8 soft-glow transition">
 
-                <div>
-                    <label class="block text-sm font-medium mb-1">Password</label>
-                    <input type="password" name="password"
-                           class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                           required>
-                </div>
+        {{-- HEADER --}}
+        <div class="text-center mb-8">
+            <span class="inline-block mb-3 px-4 py-1 rounded-full
+                bg-emerald-50 text-emerald-700
+                text-xs tracking-widest uppercase animated-gradient">
+                Goutside
+            </span>
 
-                <div class="flex items-center justify-between text-sm">
-                    <label class="inline-flex items-center gap-2">
-                        <input type="checkbox" name="remember" class="rounded border-gray-300">
-                        <span>Ingat saya</span>
-                    </label>
-                </div>
+            <h1 class="text-3xl font-bold mb-2 animated-gradient">
+                Selamat Datang Kembali
+            </h1>
 
-                <button type="submit"
-                        class="w-full bg-emerald-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700">
-                    Masuk
-                </button>
-            </form>
-
-            <p class="mt-4 text-center text-sm text-gray-600">
-                Belum punya akun?
-                <a href="{{ route('register') }}" class="text-emerald-600 hover:underline">Daftar sekarang</a>
+            <p class="text-sm text-gray-500">
+                Login untuk melanjutkan penyewaanmu
             </p>
         </div>
-    </main>
+
+        {{-- ERROR --}}
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-700
+                px-4 py-2 rounded-xl mb-5 text-sm">
+                {{ $errors->first() }}
+            </div>
+        @endif
+
+        {{-- FORM --}}
+        <form action="{{ route('login.post') }}" method="POST" class="space-y-5">
+            @csrf
+
+            {{-- EMAIL --}}
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">
+                    Email
+                </label>
+                <input type="email" name="email"
+                    value="{{ old('email') }}"
+                    required
+                    class="w-full rounded-xl px-4 py-3
+                    border border-gray-300
+                    focus:outline-none focus:ring-2
+                    focus:ring-emerald-500 transition">
+            </div>
+
+            {{-- PASSWORD --}}
+            <div class="relative">
+                <label class="block text-xs text-gray-600 mb-1">
+                    Password
+                </label>
+
+                <input type="password" name="password" id="password"
+                    required
+                    class="w-full rounded-xl px-4 py-3 pr-12
+                    border border-gray-300
+                    focus:outline-none focus:ring-2
+                    focus:ring-emerald-500 transition">
+
+                <button type="button" id="togglePassword"
+                    class="absolute right-4 top-[38px]
+                    text-gray-400 hover:text-gray-700 transition text-sm">
+                    show
+                </button>
+            </div>
+
+            {{-- REMEMBER --}}
+            <div class="flex items-center justify-between text-sm">
+                <label class="inline-flex items-center gap-2">
+                    <input type="checkbox" name="remember"
+                        class="accent-emerald-600">
+                    <span class="text-gray-600">Ingat saya</span>
+                </label>
+            </div>
+
+            {{-- BUTTON --}}
+            <button type="submit"
+                class="w-full py-3 rounded-full
+                bg-emerald-600 text-white
+                font-semibold
+                hover:bg-emerald-700 transition">
+                Masuk
+            </button>
+        </form>
+
+        {{-- FOOTER --}}
+        <p class="mt-6 text-center text-sm text-gray-600">
+            Belum punya akun?
+            <a href="{{ route('register') }}"
+               class="text-emerald-600 hover:underline">
+                Daftar sekarang
+            </a>
+        </p>
+    </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        document.querySelector('.fade-scale')?.classList.add('show');
+    }, 120);
+
+    const toggle = document.getElementById('togglePassword');
+    const input = document.getElementById('password');
+
+    toggle.addEventListener('click', () => {
+        input.type = input.type === 'password' ? 'text' : 'password';
+        toggle.textContent = input.type === 'password' ? 'show' : 'hide';
+    });
+});
+</script>
+
 </body>
 </html>

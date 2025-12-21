@@ -36,7 +36,7 @@ animate-navbar-in">
 
                     <a href="{{ route('katalog.index') }}"
                        class="nav-link px-3 py-2 rounded-md text-sm font-medium
-   {{ request()->routeIs('katalog.*')
+   {{ request()->routeIs('katalog')
    ? 'active text-white'
    : 'text-emerald-100 hover:text-white' }}">
                         Katalog
@@ -44,7 +44,7 @@ animate-navbar-in">
 
                     <a href="{{ route('reservasi.index') }}"
                        class="nav-link px-3 py-2 rounded-md text-sm font-medium
-   {{ request()->routeIs('reservasi.*')
+   {{ request()->routeIs('reservasi')
    ? 'active text-white'
    : 'text-emerald-100 hover:text-white' }}">
                         Reservasi
@@ -55,7 +55,9 @@ animate-navbar-in">
                         @if(auth()->user()->role === 'admin')
                             <a href="{{ route('admin.dashboard') }}"
                                class="nav-link px-3 py-2 rounded-md text-sm font-medium
-                                      {{ request()->routeIs('admin.produk.*') ? 'bg-white text-emerald-700 shadow-sm' : 'text-amber-200 hover:bg-emerald-600/60 hover:text-white' }}">
+   {{ request()->routeIs('admin.produk')
+   ? 'active text-white'
+   : 'text-emerald-100 hover:text-white' }}">
                                 Admin
                             </a>
                         @endif

@@ -33,4 +33,14 @@ class Reservation extends Model
     {
         return $query->where('payment_status', 'pending');
     }
+     public function items()
+    {
+        return $this->hasMany(ReservationItem::class, 'reservation_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }

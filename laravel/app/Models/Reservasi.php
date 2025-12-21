@@ -20,13 +20,13 @@ class Reservation extends Model
         'status',
     ];
 
-    // ✅ RELASI KE USER (BENAR)
+    //  RELASI KE USER 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // ✅ RELASI KE ITEM (INI YANG SEHARUSNYA)
+    //  RELASI KE ITEM
     public function items()
     {
         return $this->hasMany(ReservationItem::class, 'reservation_id');

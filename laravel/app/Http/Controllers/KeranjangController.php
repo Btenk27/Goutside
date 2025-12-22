@@ -22,8 +22,7 @@ class KeranjangController extends Controller
     }
 
     /**
-     * Tambah produk ke keranjang (dari katalog)
-     * ❗ DIBATASI STOK
+     * Tambah produk ke keranjang
      */
     public function store(Request $request)
     {
@@ -75,7 +74,6 @@ if($produk->stok < $request->qty){
 
     /**
      * Tambah qty (+)
-     * ❗ DIBATASI STOK
      */
     public function increaseQty($itemId)
     {
@@ -87,7 +85,7 @@ if($produk->stok < $request->qty){
             })
             ->firstOrFail();
 
-        // ❌ JIKA QTY SUDAH = STOK
+        // JIKA QTY SUDAH = STOK
         if ($item->qty >= $item->produk->stok) {
             return back()->with('error', 'Stok produk sudah habis');
         }

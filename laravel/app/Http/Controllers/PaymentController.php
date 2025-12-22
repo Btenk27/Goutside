@@ -31,7 +31,7 @@ class PaymentController extends Controller
                 ->with('success', 'Reservasi sudah dibayar.');
         }
 
-        // 🔑 ORDER ID UNIK
+        // ORDER ID UNIK
         $orderId = 'RES-' . $reservation->id . '-' . time();
 
         $params = [
@@ -50,7 +50,7 @@ class PaymentController extends Controller
 
         $snapToken = Snap::getSnapToken($params);
 
-        // 🔑 SIMPAN ORDER ID + TOKEN
+        // SIMPAN ORDER ID + TOKEN
         $reservation->update([
             'payment_token'    => $snapToken,
             'payment_order_id' => $orderId,
@@ -59,7 +59,7 @@ class PaymentController extends Controller
         return view('payment.pay', compact('snapToken'));
     }
 
-    // 🔥 INI YANG UPDATE DB
+    //  INI YANG UPDATE DB
     public function callback(Request $request)
     {
         Log::info('MIDTRANS CALLBACK MASUK', $request->all());
